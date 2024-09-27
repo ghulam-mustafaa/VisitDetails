@@ -59,7 +59,7 @@
                 window.webkit.messageHandlers.nativeBridge.postMessage({
                     "action": "fetch",
                     "entityName": "VisitDetails",
-                    "predicate": "SELF.userId == [c] " + globalUserId + " AND SELF.visitId == " + visitId,
+                    "predicate": "SELF.userId ==[c] '" + globalUserId + "' AND SELF.visitId == " + visitId,
                     "callBack": "onFetchVisitDetails"
                 });
             }
@@ -67,8 +67,9 @@
 
         function onFetchVisitDetails(params) {
             const responseDiv = document.getElementById('response');
-            var jobNumber = params.jobNumber;
-            var status = params.status;
+            var data = params.data;
+            var jobNumber = data.jobNumber;
+            var status = data.status;
             alert("Received JobNumber: " + jobNumber);
             responseDiv.innerHTML = 'Received from native: JobNumber -> ' + jobNumber + ' Status -> ' + status;
         }
