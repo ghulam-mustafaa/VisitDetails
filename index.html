@@ -30,13 +30,56 @@
     <div id="response">Response will be displayed here</div>
 
     <script>
+        var globalUserId = ""
         function fetchDetails() {
-            // Post message to WebView delegate using nativeBridge
-            window.nativeBridge.postMessage(JSON.stringify({ action: 'fetch' }));
+            window.webkit.messageHandlers.nativeBridge.postMessage({
+                "action": "getSessionParams",
+                "callBack": "onReceivedSessionParams"
+            });
         }
 
+        function onReceivedSessionParams(params) {
+            var userId = params.userId;
+            globalUserId = userId;
+            alert("Received userId: " + userId);
+            if (userId != 'undefined') {
+                window.webkit.messageHandlers.nativeBridge.postMessage({
+                    "action": "getVisitId",
+                    "callBack": "onReceivedVisitId"
+                });
+            }
+        }
+
+        function onReceivedVisitId(params) {
+            var visitId = params.data;
+            alert("Received VisitId: " + visitId);
+            if (visitId != 'undefined') {
+                window.webkit.messageHandlers.nativeBridge.postMessage({
+                    "action": "fetch",
+                    "entityName": "VisitDetails",
+                    "predicate": "SELF.userId == [c] " + globalUserId + " AND SELF.visitId == " + visitId,
+                    "callBack": "onFetchVisitDetails"
+                });
+            }
+        }
+
+        function onFetchVisitDetails(params) {
+            const responseDiv = document.getElementById('response');
+            var jobNumber = params.jobNumber;
+            var status = params.status;
+            alert("Received JobNumber: " + jobNumber);
+            responseDiv.innerHTML = 'Received from native: JobNumber -> ' + jobNumber + ' Status -> ' + status;
+        }
+        
         // Function to handle native response
         function nativeResponse(data) {
+            var action = data.action
+            if action == "getSessionParams" {
+            } else if action == "getVisitId" {
+                
+            } else if action == "fetch" {
+                
+            }
             const responseDiv = document.getElementById('response');
             responseDiv.innerHTML = 'Received from native: ' + JSON.stringify(data);
         }
