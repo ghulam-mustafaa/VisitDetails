@@ -30,7 +30,7 @@
     <div id="response">Response will be displayed here</div>
 
     <script>
-        var globalUserId = ""
+        var globalUserId = "";
         function fetchDetails() {
             window.webkit.messageHandlers.nativeBridge.postMessage({
                 "action": "getSessionParams",
@@ -73,7 +73,7 @@
         
         // Function to handle native response
         function nativeResponse(data) {
-            var action = data.action
+            var action = data.action;
             if action == "getSessionParams" {
             } else if action == "getVisitId" {
                 
