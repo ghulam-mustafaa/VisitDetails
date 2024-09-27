@@ -46,6 +46,7 @@
             if (userId != 'undefined') {
                 window.webkit.messageHandlers.nativeBridge.postMessage({
                     "action": "getVisitId",
+                    "key": "visitId",
                     "callBack": "onReceivedVisitId"
                 });
             }
