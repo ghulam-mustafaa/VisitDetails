@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebView Native Bridge Communication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Fetch Details from Native Code</h1>
+    <button onclick="fetchDetails()">Fetch Details</button>
+
+    <div id="response">Response will be displayed here</div>
+
+    <script>
+        function fetchDetails() {
+            // Post message to WebView delegate using nativeBridge
+            window.nativeBridge.postMessage(JSON.stringify({ action: 'fetch' }));
+        }
+
+        // Function to handle native response
+        function nativeResponse(data) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = 'Received from native: ' + JSON.stringify(data);
+        }
+    </script>
+
+</body>
+</html>
