@@ -39,7 +39,8 @@
         }
 
         function onReceivedSessionParams(params) {
-            var userId = params.userId;
+            var data = params.data;
+            var userId = data.userId;
             globalUserId = userId;
             alert("Received userId: " + userId);
             if (userId != 'undefined') {
