@@ -58,9 +58,15 @@
             if (visitId != 'undefined') {
                 window.webkit.messageHandlers.nativeBridge.postMessage({
                     "action": "fetch",
-                    "entityName": "VisitDetails",
-                    "predicate": "SELF.userId ==[c] '" + globalUserId + "' AND SELF.visitId == " + visitId,
-                    "callBack": "onFetchVisitDetails"
+                    "entityName": "JobAssets",
+                    "predicate": "SELF.userId ==[c] '" + globalUserId + "' AND SELF.visitId == " + visitId + " AND SELF.sectionKey ==[c] 'siteAsset'",
+                    "callBack": "onFetchVisitDetails",
+                    "sortDescriptors": [
+                        {
+                           "key": "assetDescription",
+                            "ascending": false 
+                        }
+                    ]
                 });
             }
         }
@@ -68,10 +74,10 @@
         function onFetchVisitDetails(params) {
             const responseDiv = document.getElementById('response');
             var data = params.data;
-            var jobNumber = data.jobNumber;
-            var status = data.status;
-            alert("Received JobNumber: " + jobNumber);
-            responseDiv.innerHTML = 'Received from native: JobNumber -> ' + jobNumber + ' Status -> ' + status;
+            var count = data.length;
+            var status = data[0].assetDescription;
+            alert("Received JobNumber: " + status);
+            responseDiv.innerHTML = 'Received from native: Count of assets -> ' + count + ' Description -> ' + status;
         }
         
         // Function to handle native response
