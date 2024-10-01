@@ -57,7 +57,7 @@
             alert("Received VisitId: " + visitId);
             if (visitId != 'undefined') {
                 window.webkit.messageHandlers.nativeBridge.postMessage({
-                    "action": "fetch",
+                    "action": "fetchArray",
                     "entityName": "JobAssets",
                     "predicate": "SELF.userId ==[c] '" + globalUserId + "' AND SELF.visitId == " + visitId + " AND SELF.sectionKey ==[c] 'siteAsset'",
                     "callBack": "onFetchVisitDetails",
