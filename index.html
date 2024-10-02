@@ -33,25 +33,11 @@
         var globalUserId = "";
         function fetchDetails() {
             window.webkit.messageHandlers.nativeBridge.postMessage({
-                "action": "getSessionParams",
-                "callBack": "onReceivedSessionParams"
+                "action": "openController",
+                "data": {
+                    "controller": "MenuFormViewController",
+                }
             });
-        }
-
-        function onReceivedSessionParams(params) {
-            var data = params.data;
-            var userId = data.userId;
-            globalUserId = userId;
-            alert("Received userId: " + userId);
-            if (userId != 'undefined') {
-                window.webkit.messageHandlers.nativeBridge.postMessage({
-                    "action": "getVisitId",
-                    "data": {
-                        "key": "visitId",
-                    },
-                    "callBack": "onReceivedVisitId"
-                });
-            }
         }
 
         function onReceivedVisitId(params) {
