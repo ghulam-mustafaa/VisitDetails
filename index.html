@@ -46,7 +46,9 @@
             if (userId != 'undefined') {
                 window.webkit.messageHandlers.nativeBridge.postMessage({
                     "action": "getVisitId",
-                    "key": "visitId",
+                    "data": {
+                        "key": "visitId",
+                    },
                     "callBack": "onReceivedVisitId"
                 });
             }
@@ -58,15 +60,17 @@
             if (visitId != 'undefined') {
                 window.webkit.messageHandlers.nativeBridge.postMessage({
                     "action": "fetchArray",
-                    "entityName": "JobAssets",
-                    "predicate": "SELF.userId ==[c] '" + globalUserId + "' AND SELF.visitId == " + visitId + " AND SELF.sectionKey ==[c] 'siteAsset'",
+                    "data": {
+                        "entityName": "JobAssets",
+                        "predicate": "SELF.userId ==[c] '" + globalUserId + "' AND SELF.visitId == " + visitId + " AND SELF.sectionKey ==[c] 'siteAsset'",
+                        "sortDescriptors": [
+                            {
+                               "key": "assetDescription",
+                                "ascending": false 
+                            }
+                        ]
+                    },
                     "callBack": "onFetchVisitDetails",
-                    "sortDescriptors": [
-                        {
-                           "key": "assetDescription",
-                            "ascending": false 
-                        }
-                    ]
                 });
             }
         }
